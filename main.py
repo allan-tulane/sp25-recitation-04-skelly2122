@@ -33,6 +33,7 @@ def word_count_map(doc):
       a list of tuples of form (token, 1), where token is a whitespace delimited element of this string.
     """
     # Split the document into words and map each word to a tuple (word, 1)
+    
     return [(word, 1) for word in doc.split()]
 
 def word_count_reduce(group):
@@ -41,11 +42,14 @@ def word_count_reduce(group):
       group...a tuple of the form (token, list_of_ones), indicating the number of times each word appears.
     Returns:
       tuple of form (token, int), where int is the number of times that token appears
+    
+    NOTE: you should use call the `reduce` function here.
     """
     # Extract token and list of ones from the group
     token, ones = group
-    # Use the provided reduce function to sum up all the ones
-    return (token, sum(ones))
+    # Use the provided reduce function with plus to sum up all the ones
+    # The identity element for addition is 0
+    return (token, reduce(plus, 0, ones))
 
 def iterate(f, x, a):
     # done. do not change me.
@@ -108,6 +112,10 @@ def sentiment_map(doc,
     Returns:
       a list of tuples of form (positive, 1) or (negative, 1)
     """
+
+    # When it finds a match, it adds a tuple indicating the sentiment ('positive' or 'negative') and a count of 1 to the result list. 
+    # Words that aren't in either set are ignored.
+
     result = []
     # Split document into words
     for word in doc.split():
@@ -117,4 +125,6 @@ def sentiment_map(doc,
         elif word in neg_terms:
             result.append(('negative', 1))
     return result
+
+
 
